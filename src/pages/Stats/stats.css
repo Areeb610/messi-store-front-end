@@ -1,0 +1,45 @@
+/* Stats.css */
+.stats-container {
+    max-width: 10000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  
+  .stats-title {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  
+  .record-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .record {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  }
+  
+  .record-label {
+    color: #ff4e50;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .record-value {
+    color: #fff;
+    margin: 10px 0;
+    font-size: 24px;
+  }
+  
