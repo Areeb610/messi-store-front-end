@@ -44,7 +44,7 @@ const Navbar = () => {
             </div>
 
             <div className="ms-3">
-              <Link to="/profile" className="nav-link text-dark">
+              <Link to="/register" className="nav-link text-dark">
                 <i className="fas fa-user"></i>
               </Link>
             </div>

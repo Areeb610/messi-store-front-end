@@ -1,0 +1,41 @@
+
+form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+  }
+  
+  .button {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  MDBInput {
+    margin-bottom: 15px;
+  }
+  
+  MDBBtn {
+    width: 100%;
+  }
+  
+  p {
+    text-align: center;
+    margin-top: 15px;
+    color: #777;
+  }
+  
+  MDBNavLink {
+    color: #4285f4;
+    cursor: pointer;
+  }
+  

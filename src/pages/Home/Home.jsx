@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/Navbar/navbar'
 import ProductCards from '../Products/productCards';
-import { MDBCarousel, MDBCarouselItem, MDBCarouselCaption } from 'mdb-react-ui-kit';
+import { MDBCarousel, MDBCarouselItem} from 'mdb-react-ui-kit';
 
 import './home.css'
 import Footer from '../../components/Footer/footer';
