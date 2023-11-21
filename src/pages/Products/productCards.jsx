@@ -2,12 +2,10 @@ import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBBtn, MDBRipple } from 'mdb-react-ui-kit';
 
 const ProductCards = () => {
-  // Sample data for products
   const products = [
     { id: 1, image: 'card-1.jpg', description: 'Product 1', price: '$19.99' },
     { id: 2, image: 'card-1.jpg', description: 'Product 2', price: '$29.99' },
     { id: 3, image: 'card-1.jpg', description: 'Product 3', price: '$39.99' },
-    // Add more products as needed
   ];
 
   return (

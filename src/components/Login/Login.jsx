@@ -1,4 +1,3 @@
-// LoginComponent.js
 import React, { useState } from 'react';
 import { MDBInput, MDBBtn, MDBNavbarLink } from 'mdb-react-ui-kit';
 import './Login.css';

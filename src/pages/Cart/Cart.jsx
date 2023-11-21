@@ -1,21 +1,16 @@
-// CartPage.js
 import React, { useState } from 'react';
 import Navbar from '../../components/Navbar/navbar';
 import Footer from '../../components/Footer/footer';
 import { MDBContainer, MDBTable, MDBTableBody, MDBTableHead, MDBBtn } from 'mdb-react-ui-kit';
 
 const Cart = () => {
-  // Sample data for cart items
   const [cartItems, setCartItems] = useState([
     { id: 1, name: 'Product 1', price: 19.99, quantity: 2 },
     { id: 2, name: 'Product 2', price: 29.99, quantity: 1 },
-    // Add more items as needed
   ]);
 
-  // Calculate the total cost
   const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
 
-  // Increase the quantity of a cart item
   const increaseQuantity = (itemId) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -24,7 +19,6 @@ const Cart = () => {
     );
   };
 
-  // Decrease the quantity of a cart item
   const decreaseQuantity = (itemId) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -33,12 +27,10 @@ const Cart = () => {
     );
   };
 
-  // Remove a cart item
   const removeItem = (itemId) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
-  // Clear the entire cart
   const clearCart = () => {
     setCartItems([]);
   };
