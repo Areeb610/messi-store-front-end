@@ -1,6 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/users');
+const loginRoutes = require('./routes/login');
+const signUpRoutes = require('./routes/signup');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+
 
 const app = express();
 const port = 8080;
@@ -8,34 +14,15 @@ const port = 8080;
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://areebbutt610:CTXu5lNP0Zp1QNtu@cluster0.u68wt69.mongodb.net/MESSI_STORE', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Define your routes and middleware here
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.use(cors());
+app.use(bodyParser.json());
+app.use('/login', loginRoutes);
+app.use('/signup', signUpRoutes);
 
-});
-
-app.get('/add-user', (req, res) => {
-  const user = new User({
-    username: 'areebbutt610',
-    password: 'password',
-    email: 'areeb@gmail.com',
-    firstName: 'Areeb',
-    lastName: 'Butt',
-    role: 'admin',
-  });
-  user.save().then((result) => {
-    res.send(result);
-  });
-}
+app.get('/', (req, res) => { 
+    res.send('Hello World!');
+    }
 );
-
-app.get('/all-users', (req, res) => {
-  User.find().then((result) => {
-    res.send(result);
-  });
-}
-);
-
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

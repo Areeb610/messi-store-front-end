@@ -1,40 +1,53 @@
-// RegisterPage.js
-import React, { useState } from 'react';
+import  { useState } from 'react';
+import { Layout, Button, message } from 'antd';
 import LoginComponent from '../../components/Login/Login';
 import SignUp from '../../components/SignUp/SignUp';
 import Navbar from '../../components/Navbar/navbar';
 import Footer from '../../components/Footer/footer';
+const { Content } = Layout;
 
-const RegisterPage = () => {
-  const [isLoginForm, setLoginForm] = useState(true);
 
-  const handleLogin = (email, password) => {
-    // Handle login logic
-    console.log('Login:', email, password);
+const LoginSignupPage = () => {
+  const [isLoginVisible, setIsLoginVisible] = useState(true);
+
+  const handleToggleForm = () => {
+    setIsLoginVisible(!isLoginVisible);
   };
 
-  const handleSignup = (firstName, lastName, email, password, confirmPassword) => {
-    // Handle signup logic
-    console.log('Signup:', firstName, lastName, email, password, confirmPassword);
-  };
-
-  const toggleForm = () => {
-    setLoginForm(!isLoginForm);
+  const handleLoginSuccess = () => {
+    message.success('Login successful!');
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="container mt-5">
-        {isLoginForm ? (
-          <LoginComponent onLogin={handleLogin} onToggleForm={toggleForm} />
-        ) : (
-          <SignUp onSignUp={handleSignup} onToggleForm={toggleForm} />
-        )}
-      </div>
-        <Footer />
-    </div>
+    <Layout>
+     <Navbar />
+      <Content
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'black',
+        }}
+      >
+        <div style={{ width: 400, padding: 24, borderRadius: 8, backgroundColor: '#001529', color: 'white' }}>
+          <h1 style={{ textAlign: 'center', marginBottom: 20 }}>Welcome! Please register to continue</h1>
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+            <Button onClick={handleToggleForm} style={{ marginRight: 10 }} type={isLoginVisible ? 'primary' : 'default'}>
+              Login
+            </Button>
+            <Button onClick={handleToggleForm} type={isLoginVisible ? 'default' : 'primary'}>
+              Signup
+            </Button>
+          </div>
+
+          {isLoginVisible ? <LoginComponent onSuccess={handleLoginSuccess} /> : <SignUp />}
+        </div>
+      </Content>
+      <Footer />
+    </Layout>
   );
 };
 
-export default RegisterPage;
+export default LoginSignupPage;

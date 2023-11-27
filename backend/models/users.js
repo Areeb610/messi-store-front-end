@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
-    username: String,
-    password: String,
-    email: String,
+const UserSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    role: String,
-    }, {timestamps: true});
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true }
+});
 
-const User = mongoose.model('User', userSchema);
+UserSchema.methods.comparePassword = function (password) {
+    const user = this;
+    return password === user.password;
+}
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
 

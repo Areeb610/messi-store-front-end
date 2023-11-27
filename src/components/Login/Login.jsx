@@ -1,33 +1,74 @@
-import React, { useState } from 'react';
-import { MDBInput, MDBBtn, MDBNavbarLink } from 'mdb-react-ui-kit';
-import './Login.css';
+import { Form, Input, Button, message } from 'antd';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-const LoginComponent = ({ onLogin, onToggleForm }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ onSuccess }) => {
+  Login.propTypes = {
+    onSuccess: PropTypes.func.isRequired,
+  };
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your login logic here
-    onLogin(email, password);
+  const onFinish = async (values) => {
+    setLoading(true);
+    console.log('Success:', values);
+
+    try {
+      // Send the form data to the backend API for login using fetch
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+      console.log('Success:', data);
+
+      // If the login is successful, call the onSuccess callback
+      if (data.success) {
+        setLoading(false);
+        onSuccess();
+      } else {
+        setLoading(false);
+        // Display an error message
+        message.error(data.message || 'An error occurred during login.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setLoading(false);
+      // Display an error message
+      message.error('An error occurred during login.');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-center mb-4">Login</h2>
-      <MDBInput style={{marginBottom: 10}} label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <MDBInput style={{marginBottom: 10}} label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      <MDBBtn className='button' rounded type="submit" color="primary">
-        Login
-      </MDBBtn>
-      <p className="text-center mt-3">
-        Don't have an account?{' '}
-        <MDBNavbarLink to="#" className="d-inline" onClick={onToggleForm}>
-          Sign Up
-        </MDBNavbarLink>
-      </p>
-    </form>
+    <div style={{ color: 'white' }}>
+      <h2>Login</h2>
+      <Form layout="vertical" onFinish={onFinish}>
+        <Form.Item
+          style={{ color: 'white' }}
+          label="Email"
+          name="email"
+          rules={[{ required: true, type: 'email', message: 'Please enter a valid email' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please enter your password' }]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" block loading={loading}>
+            Login
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 
-export default LoginComponent;
+export default Login;
