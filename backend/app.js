@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const User = require('./models/users');
 const loginRoutes = require('./routes/login');
 const signUpRoutes = require('./routes/signup');
+const ProductRoutes = require('./routes/products');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/login', loginRoutes);
 app.use('/signup', signUpRoutes);
+app.use('/products', ProductRoutes);
 
 app.get('/', (req, res) => { 
     res.send('Hello World!');

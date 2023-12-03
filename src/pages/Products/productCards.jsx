@@ -1,12 +1,22 @@
 import React from 'react';
+import {useState, useEffect} from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBBtn, MDBRipple } from 'mdb-react-ui-kit';
 
 const ProductCards = () => {
-  const products = [
-    { id: 1, image: 'card-1.jpg', description: 'Product 1', price: '$19.99' },
-    { id: 2, image: 'card-1.jpg', description: 'Product 2', price: '$29.99' },
-    { id: 3, image: 'card-1.jpg', description: 'Product 3', price: '$39.99' },
-  ];
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:8080/products')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setProducts(data.products);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      }
+      );  
+  }, []);
+ 
 
   return (
     <div>

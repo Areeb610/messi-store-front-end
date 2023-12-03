@@ -1,21 +1,26 @@
 import  { useState } from 'react';
 import { Layout, Button, message } from 'antd';
-import LoginComponent from '../../components/Login/Login';
+import Login from '../../components/Login/Login';
 import SignUp from '../../components/SignUp/SignUp';
 import Navbar from '../../components/Navbar/navbar';
 import Footer from '../../components/Footer/footer';
+import {useHistory} from 'react-router-dom';
 const { Content } = Layout;
 
 
 const LoginSignupPage = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
+  const history = useHistory();
 
   const handleToggleForm = () => {
     setIsLoginVisible(!isLoginVisible);
   };
 
   const handleLoginSuccess = () => {
+    console.log('Login successful! from register');
     message.success('Login successful!');
+    history.push('/home');
+
   };
 
   return (
@@ -42,7 +47,7 @@ const LoginSignupPage = () => {
             </Button>
           </div>
 
-          {isLoginVisible ? <LoginComponent onSuccess={handleLoginSuccess} /> : <SignUp />}
+          {isLoginVisible ? <Login onSuccess={handleLoginSuccess} /> : <SignUp />}
         </div>
       </Content>
       <Footer />

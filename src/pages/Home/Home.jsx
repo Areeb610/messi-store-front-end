@@ -1,6 +1,5 @@
 import React from 'react'
 import Navbar from '../../components/Navbar/navbar'
-import ProductCards from '../Products/productCards';
 import { MDBCarousel, MDBCarouselItem} from 'mdb-react-ui-kit';
 
 import './home.css'
@@ -23,7 +22,11 @@ export default function Home() {
 
       </MDBCarouselItem>
     </MDBCarousel>
-    <ProductCards/>
+    
+    <div className="about-us">
+    <h1>About Us</h1>
+      <p>Our mission is to provide the best quality products at the best price. We are a small business that is dedicated to providing the best customer service possible. We want to make sure that you are satisfied with your purchase, so we offer a 30 day return policy on all of our products. If you have any questions or concerns about your order, please contact us at any time!</p>
+    </div>
     <Footer/>
     
     </>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const Login = ({ onSuccess }) => {
+
   Login.propTypes = {
     onSuccess: PropTypes.func.isRequired,
   };
@@ -28,6 +29,7 @@ const Login = ({ onSuccess }) => {
       // If the login is successful, call the onSuccess callback
       if (data.success) {
         setLoading(false);
+        message.success('Login successful!');
         onSuccess();
       } else {
         setLoading(false);
