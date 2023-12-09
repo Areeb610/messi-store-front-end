@@ -4,6 +4,7 @@ const User = require('./models/users');
 const loginRoutes = require('./routes/login');
 const signUpRoutes = require('./routes/signup');
 const ProductRoutes = require('./routes/products');
+const CartRoutes = require('./routes/cart');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use('/login', loginRoutes);
 app.use('/signup', signUpRoutes);
 app.use('/products', ProductRoutes);
+app.use('/cart', CartRoutes);
 
 app.get('/', (req, res) => { 
     res.send('Hello World!');

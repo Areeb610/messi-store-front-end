@@ -1,43 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/navbar';
 import Footer from '../../components/Footer/footer';
 import { MDBContainer, MDBTable, MDBTableBody, MDBTableHead, MDBBtn } from 'mdb-react-ui-kit';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Product 1', price: 19.99, quantity: 2 },
-    { id: 2, name: 'Product 2', price: 29.99, quantity: 1 },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+  const fetchCartFromServer = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/cart', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'user-id': 'someUserId', // Replace with actual user ID or implement user authentication
+        },
+      });
 
-  const increaseQuantity = (itemId) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-      )
+      if (response.ok) {
+        const data = await response.json();
+        setCartItems(data.cartItems);
+        calculateTotal(data.cartItems);
+      } else {
+        console.error('Failed to fetch cart from server');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const calculateTotal = (cartItems) => {
+    const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+    setTotal(totalAmount);
+  };
+
+  const increaseQuantity = async (itemId) => {
+    const updatedCart = cartItems.map((item) =>
+      item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
     );
+    setCartItems(updatedCart);
+    calculateTotal(updatedCart);
+    await updateCartOnServer(updatedCart);
   };
 
-  const decreaseQuantity = (itemId) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-      )
+  const decreaseQuantity = async (itemId) => {
+    const updatedCart = cartItems.map((item) =>
+      item.id === itemId && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
     );
+    setCartItems(updatedCart);
+    calculateTotal(updatedCart);
+    await updateCartOnServer(updatedCart);
   };
 
-  const removeItem = (itemId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  const removeItem = async (itemId) => {
+    const updatedCart = cartItems.filter((item) => item.id !== itemId);
+    setCartItems(updatedCart);
+    calculateTotal(updatedCart);
+    await updateCartOnServer(updatedCart);
   };
 
-  const clearCart = () => {
+  const clearCart = async () => {
     setCartItems([]);
+    setTotal(0);
+    await updateCartOnServer([]);
+  };
+
+  const updateCartOnServer = async (updatedCart) => {
+    try {
+      await fetch('http://localhost:3000/cart/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'user-id': 'USER_ID', // Replace with actual user ID or implement user authentication
+        },
+        body: JSON.stringify({ cartItems: updatedCart }),
+      });
+    } catch (error) {
+      console.error('Error updating cart on server:', error);
+    }
   };
 
   const continueShopping = () => {
-    window.location.href = "/products";
-  }
+    window.location.href = '/products';
+  };
+
+  useEffect(() => {
+    fetchCartFromServer();
+  }, []); // Fetch cart data when the component mounts
 
   return (
     <div>
@@ -61,29 +110,17 @@ const Cart = () => {
                   <td>{item.name}</td>
                   <td>${item.price.toFixed(2)}</td>
                   <td>
-                    <MDBBtn
-                      size="sm"
-                      color="info"
-                      onClick={() => increaseQuantity(item.id)}
-                    >
+                    <MDBBtn size="sm" color="info" onClick={() => increaseQuantity(item.id)}>
                       +
                     </MDBBtn>
                     <span className="mx-2">{item.quantity}</span>
-                    <MDBBtn
-                      size="sm"
-                      color="info"
-                      onClick={() => decreaseQuantity(item.id)}
-                    >
+                    <MDBBtn size="sm" color="info" onClick={() => decreaseQuantity(item.id)}>
                       -
                     </MDBBtn>
                   </td>
                   <td>${(item.price * item.quantity).toFixed(2)}</td>
                   <td>
-                    <MDBBtn
-                      size="sm"
-                      color="danger"
-                      onClick={() => removeItem(item.id)}
-                    >
+                    <MDBBtn size="sm" color="danger" onClick={() => removeItem(item.id)}>
                       Remove
                     </MDBBtn>
                   </td>
@@ -98,7 +135,9 @@ const Cart = () => {
           <MDBBtn color="danger" onClick={clearCart}>
             Clear Cart
           </MDBBtn>
-          <MDBBtn color="primary" onClick={continueShopping}>Continue Shopping</MDBBtn>
+          <MDBBtn color="primary" onClick={continueShopping}>
+            Continue Shopping
+          </MDBBtn>
         </div>
         {cartItems.length > 0 && (
           <div className="mt-4">
@@ -107,7 +146,7 @@ const Cart = () => {
           </div>
         )}
       </MDBContainer>
-        <Footer />
+      <Footer />
     </div>
   );
 };
